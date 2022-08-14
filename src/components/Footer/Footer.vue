@@ -2,24 +2,57 @@
   <div class="footer-container">
     <!-- 左侧的全选 -->
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="cbFull" :checked="true" />
-      <label class="custom-control-label" for="cbFull">全选</label>
+      <input type="checkbox" class="custom-control-input" id="cbFull" :checked="isfull"
+      @change="fullChange"  />
+      <label class="custom-control-label" for="cbFull" >全选</label>
     </div>
 
     <!-- 中间的合计 -->
     <div>
       <span>合计：</span>
-      <span class="total-price">￥{{ 0 }}</span>
+      <span class="total-price">￥{{amount.toFixed(2)}}</span>
     </div>
 
     <!-- 结算按钮 -->
-    <button type="button" class="btn btn-primary btn-settle">结算（{{ 0 }}）</button>
+    <button type="button" class="btn btn-primary btn-settle">结算（{{sum}}）</button>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  props:{
+    // 全选状态
+    isfull:{
+      type:Boolean,
+      default:true
+    },
+    //总价格
+    amount:{
+      type:Number,
+      default:0
+    },
+    // 总数量
+    sum:{
+      default:0,
+      typr:Number
+    }
+  },
+
+  methods:{
+    //监听到了全选的状态
+    fullChange(e){
+      // console.log(e.target.checked);
+      this.$emit('full-change',e.target.checked)
+
+    }
+  }
+
+}
 </script>
+
+
+
+
 
 <style lang="less" scoped>
 .footer-container {
